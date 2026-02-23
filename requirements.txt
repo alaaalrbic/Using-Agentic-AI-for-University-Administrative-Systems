@@ -1,0 +1,20 @@
+# ============================================================
+# University AI Management System - Requirements
+# Python 3.9+
+# ============================================================
+
+# --- Desktop UI ---
+PyQt5>=5.15.0
+
+# --- Mistral AI API ---
+mistralai>=1.0.0
+
+# --- MCP (Model Context Protocol) ---
+fastmcp>=2.0.0
+
+# --- Environment Variable Management ---
+python-dotenv>=1.0.0
+
+# --- HTTP / Networking (used internally by mistralai SDK) ---
+httpx>=0.24.0
+requests>=2.31.0
