@@ -2,13 +2,40 @@ from __future__ import annotations
 import json
 import os
 from typing import Any, Dict, List, Optional
-
-from mistralai import Mistral
+from openai import OpenAI
 
 JSONDict = Dict[str, Any]
 
+
+PROVIDER_CONFIGS = {
+    "mistral": {
+        "base_url":  "https://api.mistral.ai/v1",
+        "api_key_env": "MISTRAL_API_KEY",
+        "default_model": "mistral-large-latest",
+    },
+    "groq": {
+        "base_url":  "https://api.groq.com/openai/v1",
+        "api_key_env": "GROQ_API_KEY",
+        "default_model": "llama-3.3-70b-versatile",
+    },
+    "gemini": {
+        "base_url":  "https://generativelanguage.googleapis.com/v1beta/openai/",
+        "api_key_env": "GEMINI_API_KEY",
+        "default_model": "gemini-1.5-flash",
+    },
+    "openrouter": {
+        "base_url":  "https://openrouter.ai/api/v1",
+        "api_key_env": "OPENROUTER_API_KEY",
+        "default_model": "mistralai/mistral-large",
+    },
+}
+
+DEFAULT_PROVIDER = "mistral"   # ◀ change this to switch provider
+DEFAULT_MODEL    = None        # ◀ set to None to use the provider's default model,
+                               #   or set a specific string like "gemini-1.5-pro"
+
 # ---------------------------------------------------------------------------
-# TOOLS
+# TOOLS  (unchanged — same format works for all providers)
 # ---------------------------------------------------------------------------
 TOOLS = [
     {"type": "function", "function": {
@@ -132,7 +159,7 @@ TOOLS = [
 ]
 
 # ---------------------------------------------------------------------------
-# SYSTEM PROMPT — Full Agentic AI with Reasoning
+# SYSTEM PROMPT  (unchanged)
 # ---------------------------------------------------------------------------
 SYSTEM_PROMPT = """You are an intelligent autonomous AI agent managing a university administration system.
 You have full access to the university database through tools, and you reason step by step before acting.
@@ -198,28 +225,42 @@ SEARCHING:
 - Midterm: 0–40  |  Final: 0–60  |  Total: 0–100  |  Pass: ≥ 50
 - النصفي: 0–40  |  النهائي: 0–60  |  المجموع: 0–100  |  النجاح: 50 فأكثر"""
 
-DEFAULT_MODEL = "mistral-large-latest"
 
-
+# ---------------------------------------------------------------------------
+# LLM CLIENT
+# ---------------------------------------------------------------------------
 class LLMUniversityClient:
     def __init__(self, mcp_bridge, model_name: Optional[str] = None,
-                 api_key: Optional[str] = None, **kwargs):
+                 api_key: Optional[str] = None, provider: Optional[str] = None, **kwargs):
         self.mcp = mcp_bridge
-        self.model_name = model_name or DEFAULT_MODEL
-        self._history: List[dict] = []  # Conversation history for multi-turn context
-        # Load API key from environment variable only — never hardcode keys in source
+        self._history: List[dict] = []
+        self._current_context: dict = {}
+
+        # Load .env
         try:
             from dotenv import load_dotenv
             load_dotenv()
         except ImportError:
-            pass  # python-dotenv not installed; rely on system environment
-        self.api_key = api_key or os.getenv("MISTRAL_API_KEY", "")
-        self._client: Optional[Mistral] = None
-        self._current_context: dict = {}
+            pass
 
-    def _get_client(self) -> Mistral:
+        # ── CHANGED: resolve provider and base_url ────────────────────────
+        self.provider = provider or DEFAULT_PROVIDER
+        cfg = PROVIDER_CONFIGS.get(self.provider, PROVIDER_CONFIGS["mistral"])
+
+        self.model_name = model_name or DEFAULT_MODEL or cfg["default_model"]
+        self.api_key    = api_key or os.getenv(cfg["api_key_env"], "")
+        self.base_url   = cfg["base_url"]
+
+        # ── CHANGED: one OpenAI client instead of Mistral client ──────────
+        self._client: Optional[OpenAI] = None
+
+    def _get_client(self) -> OpenAI:
+        # CHANGED: OpenAI(base_url=...) instead of Mistral(api_key=...)
         if self._client is None:
-            self._client = Mistral(api_key=self.api_key)
+            self._client = OpenAI(
+                api_key=self.api_key,
+                base_url=self.base_url,
+            )
         return self._client
 
     def check_health(self) -> bool:
@@ -230,7 +271,8 @@ class LLMUniversityClient:
         if not msg or not msg.strip():
             return "Please enter a message."
         if not self.check_health():
-            return "No Mistral API key found. Please set your MISTRAL_API_KEY."
+            return f"No API key found. Please set your {PROVIDER_CONFIGS.get(self.provider, {}).get('api_key_env','API_KEY')} in .env"
+
         def is_arabic(text):
             return any('\u0600' <= c <= '\u06FF' for c in text)
 
@@ -241,11 +283,11 @@ class LLMUniversityClient:
         except Exception as e:
             error = str(e)
             if "401" in error or "unauthorized" in error.lower():
-                return "لا أستطيع الاتصال — مفتاح Mistral API يبدو غير صالح. يرجى التحقق منه." if use_arabic else "I'm unable to connect — the Mistral API key appears to be invalid. Please check your key."
+                return "لا أستطيع الاتصال — مفتاح API يبدو غير صالح." if use_arabic else "Unable to connect — the API key appears invalid."
             if "429" in error or "rate_limit" in error.lower() or "too many" in error.lower():
-                return "وصلت إلى الحد الأقصى للطلبات. يرجى الانتظار قليلاً والمحاولة مجدداً." if use_arabic else "I've reached the request limit. Please wait a moment and try again."
+                return "وصلت إلى الحد الأقصى للطلبات. يرجى الانتظار قليلاً." if use_arabic else "Rate limit reached. Please wait a moment and try again."
             if "503" in error or "connection" in error.lower():
-                return "لا أستطيع الوصول إلى خوادم Mistral الآن. يرجى التحقق من اتصالك بالإنترنت." if use_arabic else "I can't reach the Mistral servers right now. Please check your internet connection."
+                return "لا أستطيع الوصول إلى الخادم الآن." if use_arabic else "Cannot reach the server right now. Check your internet connection."
             return f"حدث خطأ: {e}" if use_arabic else f"Something went wrong: {e}"
 
     def list_students(self) -> List[dict]:
@@ -259,12 +301,11 @@ class LLMUniversityClient:
         return out if isinstance(out, list) else [out]
 
     # ------------------------------------------------------------------
-    # AGENTIC LOOP — ReAct pattern
+    # AGENTIC LOOP
     # ------------------------------------------------------------------
     def _run_agent(self, user_message: str, max_steps: int = 20) -> str:
         client = self._get_client()
 
-        # Detect language of current message
         def is_arabic(text):
             return any('\u0600' <= c <= '\u06FF' for c in text)
 
@@ -276,19 +317,21 @@ class LLMUniversityClient:
         if self._current_context.get("semester_id"):
             context_note = f"\n[System context: Active semester ID = {self._current_context['semester_id']}]"
 
-        # Build messages with conversation history (last 10 turns for context)
         history_window = self._history[-10:] if self._history else []
         messages = [
             {"role": "system", "content": SYSTEM_PROMPT},
             *history_window,
             {"role": "user", "content": f"{lang_hint}\n{user_message}{context_note}"},
         ]
-        # Track the user message in history
         self._history.append({"role": "user", "content": f"{lang_hint}\n{user_message}{context_note}"})
 
         for step in range(max_steps):
 
-            response = client.chat.complete(
+            # ── CHANGED: client.chat.completions.create() ─────────────────
+            # Old Mistral:  client.chat.complete(model=..., messages=..., tools=...)
+            # New OpenAI:   client.chat.completions.create(model=..., messages=..., tools=...)
+            # Everything else (tools format, tool_choice, temperature) is identical.
+            response = client.chat.completions.create(
                 model=self.model_name,
                 messages=messages,
                 tools=TOOLS,
@@ -297,12 +340,12 @@ class LLMUniversityClient:
                 max_tokens=2048,
             )
 
-            choice = response.choices[0]
-            msg_obj = choice.message
+            choice    = response.choices[0]
+            msg_obj   = choice.message
+            # ── CHANGED: tool_calls access is the same ────────────────────
             tool_calls = msg_obj.tool_calls or []
-            content = msg_obj.content or ""
+            content    = msg_obj.content or ""
 
-            # Build assistant message
             assistant_msg = {"role": "assistant", "content": content}
             if tool_calls:
                 assistant_msg["tool_calls"] = [
@@ -311,27 +354,24 @@ class LLMUniversityClient:
                         "type": "function",
                         "function": {
                             "name": tc.function.name,
+                            # ── CHANGED: arguments is already a string in openai ──
                             "arguments": tc.function.arguments
                         }
                     } for tc in tool_calls
                 ]
             messages.append(assistant_msg)
 
-            # No tool calls → agent is done
             if not tool_calls:
                 final_reply = content.strip() or "I've completed the task."
-                # Store assistant reply in history for future context
                 self._history.append({"role": "assistant", "content": final_reply})
-                # Keep history from growing unbounded (max 20 turns)
                 if len(self._history) > 20:
                     self._history = self._history[-20:]
                 return final_reply
 
-            # Execute all tool calls
             for tc in tool_calls:
                 tool_name = tc.function.name
                 try:
-                    args_raw = tc.function.arguments
+                    args_raw  = tc.function.arguments
                     tool_args = json.loads(args_raw) if isinstance(args_raw, str) else args_raw
                 except Exception:
                     tool_args = {}
@@ -347,12 +387,12 @@ class LLMUniversityClient:
         return "I wasn't able to complete this request within the reasoning limit. Please try rephrasing your question."
 
     # ------------------------------------------------------------------
-    # Tool execution
+    # Tool execution  (unchanged)
     # ------------------------------------------------------------------
     def _execute_tool(self, tool_name: str, args: dict) -> str:
         try:
-            args = self._auto_resolve_semester(tool_name, args)
-            raw = self.mcp.call_tool(tool_name, args)
+            args   = self._auto_resolve_semester(tool_name, args)
+            raw    = self.mcp.call_tool(tool_name, args)
             result = self._mcp_to_python(raw)
             if result is None:
                 return json.dumps({"status": "empty", "message": "No data returned."})
@@ -373,7 +413,7 @@ class LLMUniversityClient:
         return args
 
     # ------------------------------------------------------------------
-    # MCP result parser
+    # MCP result parser  (unchanged)
     # ------------------------------------------------------------------
     def _mcp_to_python(self, result: Any) -> Any:
         if isinstance(result, (dict, list, str)):
@@ -395,7 +435,7 @@ class LLMUniversityClient:
         return parsed[0] if len(parsed) == 1 else parsed
 
     # ------------------------------------------------------------------
-    # Lookup helpers
+    # Lookup helpers  (unchanged)
     # ------------------------------------------------------------------
     def find_student_id_by_name(self, name: Optional[str]) -> Optional[int]:
         if not name:

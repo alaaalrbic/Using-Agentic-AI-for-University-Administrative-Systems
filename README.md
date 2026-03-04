@@ -41,7 +41,8 @@ The AI assistant supports **both English and Arabic** and can perform all manage
 | Layer | Technology |
 |---|---|
 | Desktop UI | Python / PyQt5 (QSS Styling) |
-| AI / LLM | Mistral AI API (`mistral-large-latest`) |
+| AI / LLM SDK | OpenAI SDK (Standard for all providers) |
+| AI Providers | Mistral, Groq, Gemini, OpenRouter, Ollama |
 | AI Middleware | FastMCP (Model Context Protocol) |
 | Database | SQLite3 |
 | Environment | python-dotenv |
@@ -79,13 +80,41 @@ Create a `.env` file in the project root by copying the example:
 cp .env.example .env
 ```
 
-Open `.env` and replace the placeholder with your real Mistral API key:
+Open `.env` and add your API key for your preferred provider:
 
 ```env
-MISTRAL_API_KEY=your_actual_mistral_api_key_here
+# Choose one or more:
+MISTRAL_API_KEY=your_mistral_key
+GROQ_API_KEY=your_groq_key
+GEMINI_API_KEY=your_gemini_key
+OPENROUTER_API_KEY=your_openrouter_key
+```
+
+### 4. Select AI Provider (Optional)
+
+The system defaults to **Mistral**. To switch providers, edit `core/llm_client.py`:
+
+```python
+DEFAULT_PROVIDER = "mistral"  # options: "mistral", "groq", "gemini", "openrouter", "ollama"
 ```
 
 > ⚠️ **Important:** Never commit your `.env` file to version control. Add it to `.gitignore`.
+
+---
+
+## 🏠 Local AI with Ollama
+
+You can run the entire system locally without any API keys using [Ollama](https://ollama.com/).
+
+1. **Install Ollama** from [ollama.com](https://ollama.com/).
+2. **Pull a model** (e.g., Llama 3):
+   ```bash
+   ollama pull llama3.2
+   ```
+3. **Switch provider** in `core/llm_client.py`:
+   ```python
+   DEFAULT_PROVIDER = "ollama"
+   ```
 
 ---
 
@@ -226,32 +255,33 @@ This project implements the [Model Context Protocol (MCP)](https://modelcontextp
 
 ---
 
-## 🧪 Running Tests
+## 🧪 Running Benchmarks
+
+You can test the AI's performance and accuracy using the built-in benchmark suite:
 
 ```bash
-python test_mcp_server.py
+python benchmark_test.py
 ```
+
+This will run a battery of tests in both English and Arabic and save the results to `benchmark_results.json`.
 
 ---
 
 ## 🔒 Security Notes
 
-- API keys are loaded exclusively from the `.env` file or system environment — never hardcoded in source
-- The `.env` file should always be listed in `.gitignore`
-- If a key is accidentally exposed in version control, regenerate it immediately at [console.mistral.ai](https://console.mistral.ai/)
+- API keys are loaded exclusively from the `.env` file — never hardcoded in source.
+- The `.env` file should always be listed in `.gitignore`.
+- If using **Ollama**, no API keys are required as it runs entirely on your local machine.
 
 ---
 
 ## 🐛 Troubleshooting
 
-**"Mistral API key not configured"**
-You haven't created a `.env` file, or the `MISTRAL_API_KEY` variable is missing. See the [Installation](#-installation) section.
+**"API key not configured"**
+Ensure you have a `.env` file with the correct variable for your chosen provider (e.g., `MISTRAL_API_KEY` or `GROQ_API_KEY`).
 
-**"The Mistral API key appears to be invalid"**
-Your key may be expired or incorrect. Verify it at [console.mistral.ai](https://console.mistral.ai/).
-
-**"I can't reach the Mistral servers"**
-Check your internet connection. Mistral API requires outbound HTTPS access.
+**"Connection Error" (Ollama)**
+Ensure the Ollama server is running (`ollama serve`) before launching the application.
 
 **Database errors on startup**
 Delete `university.db` to let the app recreate it from scratch (this will erase all data).

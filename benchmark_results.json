@@ -1,0 +1,703 @@
+{
+  "model": "mistral-large-latest",
+  "db_facts": {
+    "student_count": 5,
+    "course_count": 4,
+    "courses_with_seats": [
+      "cs101",
+      "math201",
+      "eng301",
+      "db401"
+    ],
+    "semester_id": 1,
+    "semester_name": "spring 2025",
+    "semester_status": "open",
+    "student1_average": 80.0,
+    "class_average": 71.1,
+    "passed_count": 3,
+    "failed_count": 2,
+    "top_student": "fatima noor"
+  },
+  "lang_summary": {
+    "en": {
+      "correct": 4,
+      "total": 20,
+      "pass_rate": 20.0,
+      "avg_time": 0.15,
+      "total_time": 2.9
+    },
+    "ar": {
+      "correct": 4,
+      "total": 20,
+      "pass_rate": 20.0,
+      "avg_time": 0.01,
+      "total_time": 0.3
+    }
+  },
+  "category_summary": {
+    "Student Management": {
+      "en": {
+        "correct": 0,
+        "total": 3,
+        "pass_rate": 0.0,
+        "avg_time": 0.89
+      },
+      "ar": {
+        "correct": 0,
+        "total": 3,
+        "pass_rate": 0.0,
+        "avg_time": 0.01
+      }
+    },
+    "Course Management": {
+      "en": {
+        "correct": 0,
+        "total": 3,
+        "pass_rate": 0.0,
+        "avg_time": 0.02
+      },
+      "ar": {
+        "correct": 0,
+        "total": 3,
+        "pass_rate": 0.0,
+        "avg_time": 0.02
+      }
+    },
+    "Enrollment Management": {
+      "en": {
+        "correct": 0,
+        "total": 3,
+        "pass_rate": 0.0,
+        "avg_time": 0.01
+      },
+      "ar": {
+        "correct": 0,
+        "total": 3,
+        "pass_rate": 0.0,
+        "avg_time": 0.01
+      }
+    },
+    "Grades & Performance": {
+      "en": {
+        "correct": 1,
+        "total": 3,
+        "pass_rate": 33.3,
+        "avg_time": 0.01
+      },
+      "ar": {
+        "correct": 1,
+        "total": 3,
+        "pass_rate": 33.3,
+        "avg_time": 0.01
+      }
+    },
+    "Analytics": {
+      "en": {
+        "correct": 3,
+        "total": 3,
+        "pass_rate": 100.0,
+        "avg_time": 0.01
+      },
+      "ar": {
+        "correct": 3,
+        "total": 3,
+        "pass_rate": 100.0,
+        "avg_time": 0.01
+      }
+    },
+    "Semester Management": {
+      "en": {
+        "correct": 0,
+        "total": 2,
+        "pass_rate": 0.0,
+        "avg_time": 0.01
+      },
+      "ar": {
+        "correct": 0,
+        "total": 2,
+        "pass_rate": 0.0,
+        "avg_time": 0.02
+      }
+    },
+    "Error Handling": {
+      "en": {
+        "correct": 0,
+        "total": 3,
+        "pass_rate": 0.0,
+        "avg_time": 0.01
+      },
+      "ar": {
+        "correct": 0,
+        "total": 3,
+        "pass_rate": 0.0,
+        "avg_time": 0.01
+      }
+    }
+  },
+  "difficulty_summary": {
+    "Easy": {
+      "en": {
+        "correct": 0,
+        "total": 8,
+        "pass_rate": 0.0,
+        "avg_time": 0.34
+      },
+      "ar": {
+        "correct": 0,
+        "total": 8,
+        "pass_rate": 0.0,
+        "avg_time": 0.02
+      }
+    },
+    "Medium": {
+      "en": {
+        "correct": 1,
+        "total": 9,
+        "pass_rate": 11.1,
+        "avg_time": 0.01
+      },
+      "ar": {
+        "correct": 1,
+        "total": 9,
+        "pass_rate": 11.1,
+        "avg_time": 0.01
+      }
+    },
+    "Hard": {
+      "en": {
+        "correct": 3,
+        "total": 3,
+        "pass_rate": 100.0,
+        "avg_time": 0.01
+      },
+      "ar": {
+        "correct": 3,
+        "total": 3,
+        "pass_rate": 100.0,
+        "avg_time": 0.01
+      }
+    }
+  },
+  "raw_results": [
+    {
+      "prompt_id": 1,
+      "category": "Student Management",
+      "difficulty": "Easy",
+      "lang": "en",
+      "prompt": "Show me all students",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 2.659,
+      "passed": false,
+      "reason": "Expected 5 students or their names",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 1,
+      "category": "Student Management",
+      "difficulty": "Easy",
+      "lang": "ar",
+      "prompt": "أظهر لي جميع الطلاب",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.009,
+      "passed": false,
+      "reason": "Expected 5 students or their names",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 2,
+      "category": "Student Management",
+      "difficulty": "Easy",
+      "lang": "en",
+      "prompt": "How many students are registered?",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.009,
+      "passed": false,
+      "reason": "Expected 5 students or their names",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 2,
+      "category": "Student Management",
+      "difficulty": "Easy",
+      "lang": "ar",
+      "prompt": "كم عدد الطلاب المسجلين؟",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.023,
+      "passed": false,
+      "reason": "Expected 5 students or their names",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 3,
+      "category": "Student Management",
+      "difficulty": "Medium",
+      "lang": "en",
+      "prompt": "Search for a student named Ahmed",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.011,
+      "passed": false,
+      "reason": "Ahmed not mentioned",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 3,
+      "category": "Student Management",
+      "difficulty": "Medium",
+      "lang": "ar",
+      "prompt": "ابحث عن طالب اسمه أحمد",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.01,
+      "passed": false,
+      "reason": "Ahmed not mentioned",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 4,
+      "category": "Course Management",
+      "difficulty": "Easy",
+      "lang": "en",
+      "prompt": "List all available courses",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.011,
+      "passed": false,
+      "reason": "Only 0 codes found",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 4,
+      "category": "Course Management",
+      "difficulty": "Easy",
+      "lang": "ar",
+      "prompt": "اعرض جميع المقررات المتاحة",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.023,
+      "passed": false,
+      "reason": "Only 0 codes found",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 5,
+      "category": "Course Management",
+      "difficulty": "Easy",
+      "lang": "en",
+      "prompt": "Which courses have available seats?",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.025,
+      "passed": false,
+      "reason": "No available course mentioned",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 5,
+      "category": "Course Management",
+      "difficulty": "Easy",
+      "lang": "ar",
+      "prompt": "أي المقررات لديها مقاعد شاغرة؟",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.022,
+      "passed": false,
+      "reason": "No available course mentioned",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 6,
+      "category": "Course Management",
+      "difficulty": "Medium",
+      "lang": "en",
+      "prompt": "Which course has the most enrolled students?",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.011,
+      "passed": false,
+      "reason": "No course code found",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 6,
+      "category": "Course Management",
+      "difficulty": "Medium",
+      "lang": "ar",
+      "prompt": "أي مقرر يحتوي على أكبر عدد من الطلاب؟",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.011,
+      "passed": false,
+      "reason": "No course code found",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 7,
+      "category": "Enrollment Management",
+      "difficulty": "Easy",
+      "lang": "en",
+      "prompt": "What courses is student with ID 1 enrolled in?",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.01,
+      "passed": false,
+      "reason": "Ahmed's courses not found",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 7,
+      "category": "Enrollment Management",
+      "difficulty": "Easy",
+      "lang": "ar",
+      "prompt": "ما هي المقررات التي يدرسها الطالب رقم 1؟",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.011,
+      "passed": false,
+      "reason": "Ahmed's courses not found",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 8,
+      "category": "Enrollment Management",
+      "difficulty": "Medium",
+      "lang": "en",
+      "prompt": "Enroll student with ID 1 in ENG301",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.01,
+      "passed": false,
+      "reason": "No enroll confirmation",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 8,
+      "category": "Enrollment Management",
+      "difficulty": "Medium",
+      "lang": "ar",
+      "prompt": "سجّل الطالب رقم 1 في مقرر ENG301",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.01,
+      "passed": false,
+      "reason": "No enroll confirmation",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 9,
+      "category": "Enrollment Management",
+      "difficulty": "Medium",
+      "lang": "en",
+      "prompt": "Drop student with ID 1 from ENG301",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.024,
+      "passed": false,
+      "reason": "No drop confirmation",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 9,
+      "category": "Enrollment Management",
+      "difficulty": "Medium",
+      "lang": "ar",
+      "prompt": "أحذف الطالب رقم 1 من مقرر ENG301",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.011,
+      "passed": false,
+      "reason": "No drop confirmation",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 10,
+      "category": "Grades & Performance",
+      "difficulty": "Easy",
+      "lang": "en",
+      "prompt": "Show all grades for student with ID 1",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.01,
+      "passed": false,
+      "reason": "No grade info found",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 10,
+      "category": "Grades & Performance",
+      "difficulty": "Easy",
+      "lang": "ar",
+      "prompt": "أظهر جميع درجات الطالب رقم 1",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.01,
+      "passed": false,
+      "reason": "No grade info found",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 11,
+      "category": "Grades & Performance",
+      "difficulty": "Medium",
+      "lang": "en",
+      "prompt": "What is the semester average for student with ID 1?",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.02,
+      "passed": false,
+      "reason": "Average not found",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 11,
+      "category": "Grades & Performance",
+      "difficulty": "Medium",
+      "lang": "ar",
+      "prompt": "ما هو معدل الطالب رقم 1 في هذا الفصل؟",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.01,
+      "passed": false,
+      "reason": "Average not found",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 12,
+      "category": "Grades & Performance",
+      "difficulty": "Medium",
+      "lang": "en",
+      "prompt": "Did student with ID 1 pass this semester?",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.01,
+      "passed": true,
+      "reason": "Cannot verify",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 12,
+      "category": "Grades & Performance",
+      "difficulty": "Medium",
+      "lang": "ar",
+      "prompt": "هل نجح الطالب رقم 1 في هذا الفصل؟",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.022,
+      "passed": true,
+      "reason": "Cannot verify",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 13,
+      "category": "Analytics",
+      "difficulty": "Hard",
+      "lang": "en",
+      "prompt": "Get active semester then give full report: total students, pass rate, class average",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.011,
+      "passed": true,
+      "reason": "Contains numbers",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 13,
+      "category": "Analytics",
+      "difficulty": "Hard",
+      "lang": "ar",
+      "prompt": "احصل على الفصل النشط ثم أعطني تقريراً: عدد الطلاب ونسبة النجاح والمعدل",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.012,
+      "passed": true,
+      "reason": "Contains numbers",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 14,
+      "category": "Analytics",
+      "difficulty": "Hard",
+      "lang": "en",
+      "prompt": "Get active semester then rank students highest to lowest and show top 3",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.011,
+      "passed": true,
+      "reason": "Contains numbers",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 14,
+      "category": "Analytics",
+      "difficulty": "Hard",
+      "lang": "ar",
+      "prompt": "احصل على الفصل النشط ثم رتب الطلاب من الأعلى للأدنى وأظهر أفضل 3",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.012,
+      "passed": true,
+      "reason": "Contains numbers",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 15,
+      "category": "Analytics",
+      "difficulty": "Hard",
+      "lang": "en",
+      "prompt": "Get active semester then list every student who failed",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.011,
+      "passed": true,
+      "reason": "Contains numbers",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 15,
+      "category": "Analytics",
+      "difficulty": "Hard",
+      "lang": "ar",
+      "prompt": "احصل على الفصل النشط ثم اعرض كل طالب رسب",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.013,
+      "passed": true,
+      "reason": "Contains numbers",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 16,
+      "category": "Semester Management",
+      "difficulty": "Easy",
+      "lang": "en",
+      "prompt": "What is the current active semester?",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.01,
+      "passed": false,
+      "reason": "Semester info not found",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 16,
+      "category": "Semester Management",
+      "difficulty": "Easy",
+      "lang": "ar",
+      "prompt": "ما هو الفصل الدراسي النشط حالياً؟",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.022,
+      "passed": false,
+      "reason": "Semester info not found",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 17,
+      "category": "Semester Management",
+      "difficulty": "Easy",
+      "lang": "en",
+      "prompt": "Is the semester open or closed?",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.014,
+      "passed": false,
+      "reason": "Semester info not found",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 17,
+      "category": "Semester Management",
+      "difficulty": "Easy",
+      "lang": "ar",
+      "prompt": "هل الفصل الدراسي مفتوح أم مغلق؟",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.022,
+      "passed": false,
+      "reason": "Semester info not found",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 18,
+      "category": "Error Handling",
+      "difficulty": "Medium",
+      "lang": "en",
+      "prompt": "Add a new course",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.011,
+      "passed": false,
+      "reason": "Did not ask for info",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 18,
+      "category": "Error Handling",
+      "difficulty": "Medium",
+      "lang": "ar",
+      "prompt": "أضف مقرراً جديداً",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.01,
+      "passed": false,
+      "reason": "Did not ask for info",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 19,
+      "category": "Error Handling",
+      "difficulty": "Medium",
+      "lang": "en",
+      "prompt": "Enroll in CS101",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.021,
+      "passed": false,
+      "reason": "Did not ask for info",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 19,
+      "category": "Error Handling",
+      "difficulty": "Medium",
+      "lang": "ar",
+      "prompt": "سجّلني في CS101",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.011,
+      "passed": false,
+      "reason": "Did not ask for info",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 20,
+      "category": "Error Handling",
+      "difficulty": "Medium",
+      "lang": "en",
+      "prompt": "Set grade to 35",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.01,
+      "passed": false,
+      "reason": "Did not ask for info",
+      "success": true,
+      "response_preview": "Something went wrong: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    },
+    {
+      "prompt_id": 20,
+      "category": "Error Handling",
+      "difficulty": "Medium",
+      "lang": "ar",
+      "prompt": "ضع الدرجة 35",
+      "model": "mistral-large-latest",
+      "elapsed_seconds": 0.023,
+      "passed": false,
+      "reason": "Did not ask for info",
+      "success": true,
+      "response_preview": "حدث خطأ: Error code: 404 - {'error': {'message': \"model 'mistral-large-latest' not found\", 'type': 'api_error', 'param': None, 'code': None}}"
+    }
+  ]
+}
