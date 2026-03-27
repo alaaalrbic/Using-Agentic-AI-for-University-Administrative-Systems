@@ -7,8 +7,8 @@ from PyQt5.QtWidgets import (
     QLabel, QPushButton, QStackedWidget, QFrame, QSizePolicy
 )
 
-from core.mcp_bridge import MCPBridge
-from core.llm_client import LLMUniversityClient
+from core.mcp_client import MCPClient
+from core.llm import LLMUniversity
 from UI.ui_courses_tab import StudentsPage
 
 from UI.ui_chat_tab import ChatTab
@@ -218,8 +218,8 @@ class MainWindow(QMainWindow):
 
     def _init_mcp(self):
         server_path = os.path.join(os.path.dirname(__file__), "..", "mcp_server.py")
-        self.mcp = MCPBridge(server_path)
-        self.client = LLMUniversityClient(self.mcp)
+        self.mcp = MCPClient(server_path)
+        self.client = LLMUniversity(self.mcp)
 
     def _setup_sidebar(self):
         self.sidebar = QFrame()
@@ -367,7 +367,7 @@ class MainWindow(QMainWindow):
         
         ai_text_label = QLabel(
             "<b>Need help? Our AI Assistant is here for you!</b> Ask questions about "
-            "student enrollments, course management, generate reports, or get analytics insights. "
+            "student enrollments, course management, or get analytics insights. "
             "Navigate to the AI Assistant tab to get started."
         )
         ai_text_label.setWordWrap(True)

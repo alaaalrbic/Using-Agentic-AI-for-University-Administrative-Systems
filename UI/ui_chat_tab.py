@@ -1,7 +1,7 @@
 """
 AI Assistant Tab UI
 """
-
+import time
 import concurrent.futures
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from PyQt5.QtGui import QColor, QFont
@@ -220,6 +220,8 @@ class ChatTab(QWidget):
         if not msg:
             return
         
+        print(f"\\nUSER: {msg}")
+        self._chat_start_time=time.perf_counter()
         # Check if API key is configured
         if hasattr(self.client, 'check_health') and not self.client.check_health():
             self._append_chat("system", "⚠️ <b>Mistral API key not configured. Please check your settings.")
@@ -246,8 +248,9 @@ class ChatTab(QWidget):
         self.worker.start()
 
     def _on_chat_reply(self, reply: str):
-        # Remove "Processing..." if possible? Or just append.
-        # Ideally we'd remove styling but simple append is fine.
+        elapsed = time.perf_counter() - self._chat_start_time
+        print(f"RESPONSE TIME: {elapsed:.2f} s\\n")
+
         self._append_chat("assistant", reply)
         self.chat_send_btn.setEnabled(True)
         self.chat_input.setEnabled(True)

@@ -363,38 +363,7 @@ def add_student(name: str, student_id: int = None) -> dict:
         
     return db.add_student_with_id(student_id, str(name).strip())
 
-# ---------------------- MCP Resources ----------------------
-@mcp.resource("university://students")
-def get_student_list() -> str:
-    """
-    Provides a complete list of all registered students in the system.
-    
-    Returns JSON array with student ID and name fields.
-    Updated in real-time with database changes.
-    
-    Intended audience: LLM assistant
-    Priority: High (0.9) - Critical for context awareness
-    """
-    students = db.get_students()
-    return json.dumps([{"id": sid, "name": name} for (sid, name) in students])
 
-
-@mcp.resource("university://courses")
-def get_course_list() -> str:
-    """
-    Provides the complete course catalog with instructor information.
-    
-    Returns JSON array with course code, title, and instructor fields.
-    Updated in real-time with database changes.
-    
-    Intended audience: LLM assistant
-    Priority: High (0.9) - Critical for course-related queries
-    """
-    courses = db.get_all_courses_with_availability()
-    return json.dumps([
-        {"code": code, "title": title, "instructor": instructor} 
-        for (code, title, instructor, _, _) in courses
-    ])
 
  
 

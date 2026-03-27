@@ -15,7 +15,7 @@ class MCPTimeoutError(MCPCallError):
     """MCP call timed out."""
     pass
 #-------------------------------------------------------------------
-class MCPBridge:
+class MCPClient:
     def __init__(self, server_script: str = "mcp_server.py"): #it runs automatically when you create an object:
         base_dir = Path(__file__).resolve().parents[1]
         self.server_path = (base_dir / server_script).resolve()
@@ -60,30 +60,6 @@ class MCPBridge:
             raise MCPTimeoutError(f"Tool '{tool_name}' timed out after 30 seconds: {e}")
         except Exception as e:
             raise MCPCallError(f"Failed to call tool '{tool_name}': {e}")
-#-------------------------------------------------------------------
-    def read_resource(self, uri: str):
-        """Read an MCP resource with comprehensive error handling."""
-        try:
-            async def _call():
-                await self._ensure_client()
-                return await self._client.read_resource(uri)
-            return asyncio.run_coroutine_threadsafe(_call(), self._loop).result(timeout=10)
-        except TimeoutError as e:
-            raise MCPTimeoutError(f"Resource '{uri}' read timed out after 10 seconds: {e}")
-        except Exception as e:
-            raise MCPCallError(f"Failed to read resource '{uri}': {e}")
-#------------------------------------------------------------------- 
-    def list_tools(self):
-        """Get list of available tools from MCP server with error handling."""
-        try:
-            async def _call():
-                await self._ensure_client()
-                return await self._client.list_tools()
-            return asyncio.run_coroutine_threadsafe(_call(), self._loop).result(timeout=10)
-        except TimeoutError as e:
-            raise MCPTimeoutError(f"Listing tools timed out after 10 seconds: {e}")
-        except Exception as e:
-            raise MCPCallError(f"Failed to list tools: {e}")
 #-------------------------------------------------------------------
     def cleanup(self):
         """Cleanly close the MCP client and stop the event loop."""
