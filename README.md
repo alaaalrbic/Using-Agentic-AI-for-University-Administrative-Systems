@@ -1,6 +1,6 @@
 # 🎓 University AI Management System
 
-A modern desktop application for managing university students, courses, enrollments, and semesters — powered by a conversational **AI Assistant** built on the **Mistral AI API** and the **Model Context Protocol (MCP)**.
+A modern desktop application for managing university students, courses, enrollments, and semesters — powered by a conversational **AI Assistant** built on the **LLM AI API** and the **Model Context Protocol (MCP)**.
 
 The AI assistant supports **both English and Arabic** and can perform all management operations through natural language commands.
 
@@ -92,7 +92,7 @@ OPENROUTER_API_KEY=your_openrouter_key
 
 ### 4. Select AI Provider (Optional)
 
-The system defaults to **Mistral**. To switch providers, edit `core/llm_client.py`:
+The system defaults to **Mistral**. To switch providers, edit `core/llm.py`:
 
 ```python
 DEFAULT_PROVIDER = "mistral"  # options: "mistral", "groq", "gemini", "openrouter", "ollama"
@@ -111,7 +111,7 @@ You can run the entire system locally without any API keys using [Ollama](https:
    ```bash
    ollama pull llama3.2
    ```
-3. **Switch provider** in `core/llm_client.py`:
+3. **Switch provider** in `core/llm.py`:
    ```python
    DEFAULT_PROVIDER = "ollama"
    ```
@@ -147,8 +147,8 @@ MCPverEnglish and arabicV1/
 ├── requirements.txt          # Python dependencies
 │
 ├── core/
-│   ├── llm_client.py         # Mistral AI client — agentic loop & tool execution
-│   ├── mcp_bridge.py         # MCP Client — async bridge between GUI and MCP Server
+│   ├── llm.py                # Mistral AI client — agentic loop & tool execution
+│   ├── mcp_client.py         # MCP Client — async bridge between GUI and MCP Server
 │   ├── semester_rules.py     # Business rules for semester operations
 │   └── db/
 │       ├── base.py           # Base SQLite connection and utilities
@@ -178,12 +178,12 @@ This project implements the [Model Context Protocol (MCP)](https://modelcontextp
 │                     PyQt5 Desktop UI                    │
 │                                                         │
 │   ┌──────────────┐         ┌────────────────────────┐   │
-│   │  Chat Tab    │────────▶│   LLMUniversityClient  │   │
+│   │  Chat Tab    │────────▶│     LLMUniversity      │   │
 │   │ (ui_chat_tab)│         │    (Mistral AI API)    │   │
 │   └──────────────┘         └───────────┬────────────┘   │
 │                                        │                │
 │   ┌──────────────────────────────────┐ │                │
-│   │         MCPBridge                │◀┘                │
+│   │          MCPClient               │◀┘                │
 │   │  (Async stdio client thread)     │                  │
 │   └─────────────────┬────────────────┘                  │
 └─────────────────────│───────────────────────────────────┘
@@ -202,8 +202,8 @@ This project implements the [Model Context Protocol (MCP)](https://modelcontextp
 ### How It Works
 
 - **MCP Server** (`mcp_server.py`) registers all database operations as callable tools (e.g. `list_students`, `enroll`, `set_course_grade`)
-- **MCPBridge** (`core/mcp_bridge.py`) runs a persistent async event loop in a background thread, communicating with the server over stdio transport
-- **LLMUniversityClient** (`core/llm_client.py`) sends user messages to Mistral, receives tool-call requests, executes them via the bridge, and loops until the AI produces a final answer
+- **MCPClient** (`core/mcp_client.py`) runs a persistent async event loop in a background thread, communicating with the server over stdio transport
+- **LLMUniversity** (`core/llm.py`) sends user messages to Mistral, receives tool-call requests, executes them via the bridge, and loops until the AI produces a final answer
 
 ---
 
