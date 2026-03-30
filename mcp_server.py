@@ -19,7 +19,6 @@ def list_students() -> list[dict]:
     rows = db.get_students()
     return [{"id": int(sid), "name": name} for (sid, name) in rows]
 
-
 @mcp.tool()
 def search_students(query: str) -> list[dict]:
     """
@@ -51,7 +50,7 @@ def list_courses() -> list[dict]:
         for (code, title, instructor, avail, max_seats) in rows
     ]
 
-# ---------------------- Semester tools ----------------------
+#---------------------- Semester tools ----------------------
 @mcp.tool()
 def add_semester(name: str) -> dict:
     """
@@ -67,7 +66,6 @@ def add_semester(name: str) -> dict:
         return {"success": False, "message": "Semester name cannot be empty."}
     return db.create_semester(str(name).strip())
 
-
 @mcp.tool()
 def list_semesters() -> list[dict]:
     """
@@ -82,7 +80,6 @@ def list_semesters() -> list[dict]:
         {"id": int(sid), "name": str(name), "state": str(state), "is_active": (int(sid) == int(active_id or -1))}
         for (sid, name, state) in rows
     ]
-
 
 @mcp.tool()
 def get_active_semester() -> dict:
@@ -105,7 +102,6 @@ def get_active_semester() -> dict:
             break
     return {"id": int(sid), "name": name, "state": state}
 
-
 @mcp.tool()
 def set_active_semester(semester_id: Optional[int]) -> dict:
     """
@@ -121,7 +117,6 @@ def set_active_semester(semester_id: Optional[int]) -> dict:
          return db.set_active_semester(None)
     return db.set_active_semester(int(semester_id))
 
-
 @mcp.tool()
 def close_semester(semester_id: int) -> dict:
     """
@@ -136,7 +131,6 @@ def close_semester(semester_id: int) -> dict:
     if int(semester_id) <= 0:
          return {"success": False, "message": "Invalid semester ID."}
     return db.close_semester(int(semester_id))
-
 
 # ---------------------- Enrollment tools ----------------------
 @mcp.tool()
@@ -171,7 +165,6 @@ def get_student_enrollments(student_id: int, semester_id: Optional[int] = None) 
         )
     return result
 
-
 @mcp.tool()
 def enroll(student_id: int, course_code: str, semester_id: Optional[int] = None) -> dict:
     """
@@ -200,7 +193,6 @@ def enroll(student_id: int, course_code: str, semester_id: Optional[int] = None)
         return {"success": False, "message": f"Course '{code}' not found."}
     return db.enroll_student_in_course(int(student_id), int(course_id), semester_id=semester_id)
 
-
 @mcp.tool()
 def drop(student_id: int, course_code: str, semester_id: Optional[int] = None) -> dict:
     """
@@ -225,7 +217,6 @@ def drop(student_id: int, course_code: str, semester_id: Optional[int] = None) -
     if course_id is None:
         return {"success": False, "message": f"Course '{code}' not found."}
     return db.drop_student_from_course(int(student_id), int(course_id), semester_id=semester_id)
-
 
 @mcp.tool()
 def set_course_grade(
@@ -275,7 +266,6 @@ def set_course_grade(
         final=final,
     )
 
-
 @mcp.tool()
 def get_semester_average(student_id: int, semester_id: Optional[int] = None) -> dict:
     """
@@ -301,7 +291,6 @@ def get_semester_average(student_id: int, semester_id: Optional[int] = None) -> 
     avg = db.get_semester_average(int(student_id), int(sem_id))
     return {"student_id": int(student_id), "semester_id": int(sem_id), "average": avg}
 
-
 @mcp.tool()
 def get_semester_summary_data(semester_id: int) -> list[dict]:
     """
@@ -316,7 +305,6 @@ def get_semester_summary_data(semester_id: int) -> list[dict]:
     if int(semester_id) <= 0:
         return []
     return db.get_semester_summary_data(int(semester_id))
-
 
 # ---------------------- Admin data tools ----------------------
 @mcp.tool()
@@ -342,7 +330,6 @@ def add_course(code: str, title: str, instructor: str, max_seats: int) -> dict:
         
     return db.add_course(clean_code, str(title).strip(), str(instructor).strip(), int(max_seats))
 
-
 @mcp.tool()
 def add_student(name: str, student_id: int = None) -> dict:
     """
@@ -362,10 +349,6 @@ def add_student(name: str, student_id: int = None) -> dict:
         return {"success": False, "message": "Invalid student ID."}
         
     return db.add_student_with_id(student_id, str(name).strip())
-
-
-
  
-
 if __name__ == "__main__":
     mcp.run()
